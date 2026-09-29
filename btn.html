@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mandir Booking</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #fff8f2, #fdf1e7);
+      color: #2b211d;
+    }
+
+    .booking-card {
+      width: 420px;
+      max-width: 92%;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 15px 45px rgba(80, 35, 15, 0.12);
+      border: 1px solid rgba(139, 30, 30, 0.08);
+    }
+
+    .mandir-image {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 22px;
+      display: block;
+    }
+
+    .icon {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      color: #701b1b;
+    }
+
+    .subtitle {
+      margin: 0 0 25px;
+      color: #777;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .input-wrapper span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px 14px 45px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+      background: #fff;
+    }
+
+    input:focus {
+      border-color: #8b1e1e;
+      box-shadow: 0 0 0 3px rgba(139, 30, 30, 0.08);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #8b1e1e;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background: #701717;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(139, 30, 30, 0.2);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #bookNowBtn {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .success-icon {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f7e6e2;
+      color: #8b1e1e;
+      font-size: 30px;
+    }
+
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #701b1b;
+      margin-bottom: 8px;
+    }
+
+    .success-text {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .booking-card {
+        padding: 22px;
+      }
+
+      .mandir-image {
+        height: 180px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="booking-card">
+
+    <!-- Step 1 -->
+    <div id="mandirSection">
+
+      <img
+        class="mandir-image"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOvRMXM2bTEmyhDsEVzmlJidHyS62xjfdW4ckE1nb2ze9JY4Jf3SkImK1B&s=10"
+        alt="Mandir"
+      >
+
+      <div class="icon">🛕</div>
+
+      <h1>Select Your Mandir</h1>
+
+      <p class="subtitle">
+        Enter the Mandir booking link below to continue.
+      </p>
+
+      <div class="input-wrapper">
+        <span>🔗</span>
+
+        <input
+          type="text"
+          id="mandirUrl"
+          placeholder="Paste Mandir URL here..."
+        >
+      </div>
+
+      <button id="submitUrlBtn">
+        Continue →
+      </button>
+
+    </div>
+
+
+    <!-- Step 2 -->
+    <div id="successSection" class="hidden">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <div class="success-title">
+        My Mandir
+      </div>
+
+      <p class="success-text">
+        Book puja and darshan at your favorite Mandir with ease. Click the button below to proceed to the booking page.
+      </p>
+
+      <button id="bookNowBtn">
+        Book Now →
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    let mandirUrl = "";
+
+    const mandirSection = document.getElementById("mandirSection");
+    const successSection = document.getElementById("successSection");
+    const input = document.getElementById("mandirUrl");
+    const submitUrlBtn = document.getElementById("submitUrlBtn");
+    const bookNowBtn = document.getElementById("bookNowBtn");
+
+
+    // Continue button
+    submitUrlBtn.addEventListener("click", () => {
+
+      mandirUrl = input.value.trim();
+
+      if (!mandirUrl) {
+        alert("Please paste the Mandir URL.");
+        input.focus();
+        return;
+      }
+
+      // Validate URL
+      try {
+        new URL(mandirUrl);
+      } catch (error) {
+        alert("Please enter a valid Mandir URL.");
+        input.focus();
+        return;
+      }
+
+      // Hide first section
+      mandirSection.style.display = "none";
+
+      // Show booking section
+      successSection.classList.remove("hidden");
+
+      bookNowBtn.style.display = "block";
+    });
+
+
+    // Book Now button
+    bookNowBtn.addEventListener("click", () => {
+
+      window.location.href = mandirUrl;
+
+    });
+
+
+    // Allow Enter key
+    input.addEventListener("keydown", (event) => {
+
+      if (event.key === "Enter") {
+        submitUrlBtn.click();
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
